@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="kimyen">
+  <meta name="description" content="Passing Parameters Between Jenkins Jobs | While working on the automated build system for the R client at Sage, I discovered how to pass parameters...">
+
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">  
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/font.css" type="text/css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/style.css" type="text/css" media="all">
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://kimyen.github.io/theme/js/functions.js"></script>
+
+  
+ 
+
+
+<meta name="keywords" content="">
+
+
+
+  <title>Passing Parameters Between Jenkins Jobs</title>
+
+  
+</head>
+
+<body class="home blog">
+  <div>
+    <header class="site-header">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="row">
+            <div class="site-navigation-inner col-sm-12">
+              <div class="navbar-header">
+                <button type="button" class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul id="menu-all-pages" class="nav navbar-nav">
+                <li class="menu-item"><a href="/index.html" >Home
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/about.html" >About
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/projects.html" >Projects
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/hobbies.html" >Hobbies
+<i class="fa  fa-lg"></i></a></li>
+              </ul>
+              </div>
+              <div class="social">   
+                <a href="mailto:kimyen@github.com" title="Email" >
+<i class="fa fa-envelope fa-lg"></i></a>
+                <a href="http://github.com/kimyen" title="GitHub" >
+<i class="fa fa-github fa-lg"></i></a>
+                <a href="https://www.linkedin.com/in/kimyen-ladia-a3b50884" title="Linkedin" >
+<i class="fa fa-linkedin fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav><!-- .site-navigation -->
+
+      <div class="container">
+      <div id="logo">
+        <span class="site-name"><a class="navbar-brand" href="https://kimyen.github.io"><img width="310" src="https://avatars1.githubusercontent.com/u/4404426?s=460&u=005f2c61c8afb6778c2d00b4a9746a67cd1c39f1&v=4" class="attachment-full size-full" alt="logo">          </a>
+        </span><!-- end of .site-name -->
+      </div><!-- end of #logo -->
+        <div class="tagline">
+        </div>
+    </div>
+
+  </header><!-- #masthead -->
+  </div>
+    <div id="content" class="site-content">
+      <div class="container main-content-area">
+        <div class="row">
+          <div class="main-content-inner col-sm-12 col-md-12">
+            <div id="primary" class="content-area">
+              <div id="main" class="site-main" role="main">
+                <div class="article-container">
+<article>
+  <div class="blog-item-wrap">
+    <div class="post-inner-content">
+      <header class="entry-header page-header">
+        <span class="cat-item"><time datetime="2018-03-05 00:00:00-08:00">Mar 05, 2018</time></span>
+        <h1 class="entry-title"><a href="https://kimyen.github.io/passing-params-between-jenkins-jobs.html">Passing Parameters Between Jenkins Jobs</a></h1>
+      </header><!-- .entry-header -->
+      <div class="fb-like" data-href="https://kimyen.github.io/passing-params-between-jenkins-jobs.html" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+      <div class="entry-content">
+        <p>While working on the automated build system for the R client at Sage, I discovered how to pass parameters between Jenkins jobs. In this post, I will talk about why I was interested in this topic, and what I learned from setting up my builds.</p>
+<h2>Why passing parameters between Jenkins jobs?</h2>
+<p>The automated build system I worked on is supposed to do the following:
+1. One each platform (Linux, Window &amp; Mac):
+* Clone and checkout a release candidate branch of a Github repository
+* Run <code>R CMD build</code> &amp; <code>R CMD install</code> to create artifacts
+2. Zip the artifacts
+3. Generate documentation and update the release candidate branch
+4. Push artifacts to our RAN
+5. Check that the artifacts can be installed on 3 platforms Linux, Window, and Mac</p>
+<p>I have the following Jenkins jobs:</p>
+<p><code>synapser_staging</code>
+* Runs on 3 slaves (Linux, Window &amp; Mac)
+* Executes task #1</p>
+<p><code>synapser_artifacts</code>
+* Runs on a Mac machine
+* Executes task #2 &amp; #3</p>
+<p><code>synapser_deploy</code>
+* Runs on a slave machine
+* Executes #4</p>
+<p><code>synapser_check</code>
+* Runs on 3 slaves (Linux, Window &amp; Mac)
+* Executes #5</p>
+<p><code>synapser_staging</code> uses the branch name and the Jenkins job number to determine to version that it's going to build. For example, when the building branch is <code>v0.1-rc</code> and the job number is 27, the version that is going to build is <code>0.1.27</code> This algorithm allows us to automatically increase the version number without making human mistakes. </p>
+<p>This version number will be used:
+* to generate the artifacts (in <code>synapser_staging</code>),
+* update <code>Version</code> in <code>DESCRIPTION</code> file, then this change is push back to the building branch (in <code>synapser_artifacts</code>),
+* and look for which version to check after deployment (in <code>synapser_check</code>)</p>
+<p>Ideally, I would want to pass the version number from one job to another. </p>
+<h2>How to pass parameters from one Jenkins job to another?</h2>
+<h3>Preconditions</h3>
+<p>To pass parameters from <code>synapser_staging</code> to <code>synapser_artifacts</code>, I need the following Jenkins plugins:
+* Parameterized Build
+* Parameterized Build Trigger </p>
+<h3>Configurations</h3>
+<p><code>synapser_staging</code> - the giver - is set up with Parameterized Build Trigger in Post Actions section. <code>synapser_artifacts</code> - the receiver - is set up with Parameterized Build in the General section. </p>
+<h3>What variables can you pass?</h3>
+<p>The types of variable that can be passed includes:
+* Jenkins environment variables (BUILD_ID, BUILD_NUMBER, ...)
+* Params that trigger the giver job (entered from users or passed from another job)
+* Github params (BRANCH_NAME)
+* Constants (I will talk more about why you need constants).</p>
+<h2>What I learned</h2>
+<p>Now, those types above do not include user defined variable. If you are familiar with bash, you would laugh at me for trying to pass variables that I exposed in the running script. The biggest lesson that I learned from this is when you expose a "global variable" in your script, it will effect the current running script and it's child processes, but not its parents. Passing params happen at the "parent" level, at the process that manages the job. So any values you calculate within the job, stays inside the job. </p>
+<p>With that said, I cannot calculate version number with my algorithm and pass it along to a downstream job. Instead, I passed the infomation that requires to calculate the version number from the starting job to the last job. </p>
+<p>Now, you may say, that's a lot of dupplicated code to execute the algorithm over and over again. When I need to make changes to that code, I will forget to change all the places. Here is the solution for that: use git raw file. You can write your code once, push it to Github. Then you can use curl to get that code. I do this for big chunk of code, but not small and simple code. It's not about being lazy, it's about efficiency. Reading/ downloading data over the network is always the bottle neck. If the code was one line of bash script, I would just copy and past it from one job to another job.</p>
+<h3>Notes about constants</h3>
+<p>Constants are useful when you have 2 upstream jobs calling the same downstream job with different variables. For example, my <code>synapser_check</code> can be used to check any package version on any RAN. The upstream job would pass it the version number and the RAN URI. In this case, the RAN URI can be a constant defined while configure the giver job with Parameterized Build Trigger.</p>
+<p>I hope these information are useful. If you try it, please leave a comment letting me know how it works out for you. </p>
+      </div><!-- .entry-content -->
+      <br /><br />
+      <div class="article_meta">
+      </div>
+    </div>
+  </div>
+</article><!-- #post-## -->
+                </div>
+              </div><!-- #main -->
+          </div><!-- #primary -->
+        </div>
+      </div><!-- close .row -->
+    </div><!-- close .container -->
+  </div><!-- close .site-content -->
+
+
+
+
+  <div id="footer-area">
+    <footer id="colophon" class="site-footer" role="contentinfo">
+      <div class="site-info container">
+        <div class="row">
+                    <div class="copyright col-md-12">
+                    <a href="https://kimyen.github.io/pages/privacy-policy">Privacy Policy</a> | 
+                    <a href="https://kimyen.github.io/pages/terms-and-conditions">Terms & Conditions</a><br />
+                    This site uses the <a href="https://github.com/limbenjamin/voce">voce</a> theme by <a href="//limbenjamin.com/">Benjamin Lim</a><br />
+                    &copy; 2020 <a href="https://kimyen.github.io">kimyen</a> </div>
+        </div>
+      </div><!-- .site-info -->
+      <div class="scroll-to-top" style="display: none;"><i class="fa fa-angle-up"></i></div><!-- .scroll-to-top -->
+    </footer><!-- #colophon -->
+  </div>
+
+  <script type="text/javascript">
+    window.addEventListener('load', function(){
+    if (window.location.pathname != '/' && window.location.pathname != '/index.html'){
+      window.scroll(0, document.getElementById('main').offsetTop);
+    }})
+  </script>
+
+
+
+
+<script type="text/javascript">window.addEventListener("load", lw_timeago);</script>
+</body>
+</html>

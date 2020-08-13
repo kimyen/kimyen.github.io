@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="kimyen">
+  <meta name="description" content="synapser Build &amp; Deploy System | When I started to work on the synapser client, I was given a task to design and implement the client build system. In...">
+
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">  
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/font.css" type="text/css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/style.css" type="text/css" media="all">
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://kimyen.github.io/theme/js/functions.js"></script>
+
+  
+ 
+
+
+<meta name="keywords" content="CI/CD, jenkins, builds, automation, GitHub, R, packages, packaging, deploy, RAN, releases, practices">
+
+
+
+  <title>synapser Build &amp; Deploy System</title>
+
+  
+</head>
+
+<body class="home blog">
+  <div>
+    <header class="site-header">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="row">
+            <div class="site-navigation-inner col-sm-12">
+              <div class="navbar-header">
+                <button type="button" class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul id="menu-all-pages" class="nav navbar-nav">
+                <li class="menu-item"><a href="/index.html" >Home
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/about.html" >About
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/projects.html" >Projects
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/hobbies.html" >Hobbies
+<i class="fa  fa-lg"></i></a></li>
+              </ul>
+              </div>
+              <div class="social">   
+                <a href="mailto:kimyen@github.com" title="Email" >
+<i class="fa fa-envelope fa-lg"></i></a>
+                <a href="http://github.com/kimyen" title="GitHub" >
+<i class="fa fa-github fa-lg"></i></a>
+                <a href="https://www.linkedin.com/in/kimyen-ladia-a3b50884" title="Linkedin" >
+<i class="fa fa-linkedin fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav><!-- .site-navigation -->
+
+      <div class="container">
+      <div id="logo">
+        <span class="site-name"><a class="navbar-brand" href="https://kimyen.github.io"><img width="310" src="https://avatars1.githubusercontent.com/u/4404426?s=460&u=005f2c61c8afb6778c2d00b4a9746a67cd1c39f1&v=4" class="attachment-full size-full" alt="logo">          </a>
+        </span><!-- end of .site-name -->
+      </div><!-- end of #logo -->
+        <div class="tagline">
+        </div>
+    </div>
+
+  </header><!-- #masthead -->
+  </div>
+    <div id="content" class="site-content">
+      <div class="container main-content-area">
+        <div class="row">
+          <div class="main-content-inner col-sm-12 col-md-12">
+            <div id="primary" class="content-area">
+              <div id="main" class="site-main" role="main">
+                <div class="article-container">
+<article>
+  <div class="blog-item-wrap">
+    <div class="post-inner-content">
+      <header class="entry-header page-header">
+        <span class="cat-item"><time datetime="2018-05-15 00:00:00-07:00">May 15, 2018</time></span>
+        <h1 class="entry-title"><a href="https://kimyen.github.io/synapser-build-and-deploy-system.html">synapser Build & Deploy System</a></h1>
+      </header><!-- .entry-header -->
+      <div class="fb-like" data-href="https://kimyen.github.io/synapser-build-and-deploy-system.html" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+      <div class="entry-content">
+        <p>When I started to work on the <code>synapser</code> client, I was given a task to design and implement the client build system. In this post, I will discuss the requirements that was given to me, the practices we established, and how the <code>synapser</code> client build system works. </p>
+<p>The slides is available <a href="/slides/SynapseRClientBuild&amp;DeploySystem.pdf">here</a>.</p>
+<h2>The Requirements</h2>
+<p>I received requirements from 3 groups of people:
+* The end users;
+* The client validators, who are the client users, but are more tech savy and would help us verify that an issue is fixed;
+* The developers.</p>
+<h3>The End Users' Requirements</h3>
+<ol>
+<li>Sage provides the binaries for each client version. Users should be able to install the client using <code>install.packages()</code>, and should not need to install any additional tools (e.g., devtools, C compiler).</li>
+</ol>
+<h3>The Validators' Requirements</h3>
+<ol>
+<li>Each version that needs to be validated must have a unique version number. </li>
+<li>It should be easy for the validators to install the to-be-validated version and the already-released version, and managing them in their local machine without having one accidentally overwriting another.</li>
+<li>The Github repository that hosts the client source code must follow standard R packages and easy to navigate between different versions. </li>
+</ol>
+<h3>The Developers' Requirements</h3>
+<ol>
+<li>The client version should be automatically increased to eliminate mistakes made by the developers.</li>
+<li>The build &amp; deployment system must be easy to use and maintenance. </li>
+<li>The documentation must be updated automatically to prevent content out of date.</li>
+<li>The deployment process must check that the artifacts are available after the deployment, and can be installed on Mac, Linux, and Windows.</li>
+</ol>
+<p>I took the requirements above and played with many different plugin and settings in Jenkins. There were so many different ways to setup the Github repository and Jenkins jobs to achieve them. To narrow down the implementation, we establish our practice.</p>
+<h2>Our Practices</h2>
+<h3>R Packages Practices</h3>
+<h4>Version</h4>
+<p>Our package version has 3 parts: <code>&lt;major&gt;.&lt;minor&gt;.&lt;dev&gt;</code>
+A product manager will determine the <code>&lt;major&gt;.&lt;minor&gt;</code> part. The build system will automatically increase the <code>&lt;dev&gt;</code> number.</p>
+<h4>RAN and Documentation</h4>
+<p>We use Github Pages to host our R packages, and documentation.
+Our RAN is setup in an CRAN-like repository, enabling users to install R packages by executing <code>install.packages()</code>.
+We setup 2 types of RAN:</p>
+<ul>
+<li>ran: hosting released packages</li>
+<li>staging-ran: hosting to-be-validated packages</li>
+</ul>
+<h3>Release Process</h3>
+<ol>
+<li>Identify the release candidate</li>
+<li>Developerment work</li>
+<li>Build and deploy artifacts to <code>staging-ran</code></li>
+<li>Validation</li>
+<li>Deploy tested artifacts to <code>ran</code></li>
+</ol>
+<h3>Github Practices</h3>
+<h4>Github Branches</h4>
+<p>We have 3 types of Github branches:</p>
+<ol>
+<li><code>master</code> branch: keeping track of the latest released version.</li>
+<li><code>develop</code> branch: keeping track of the latest development work.</li>
+<li>release-candidate branches: keeping track of each to-be-validated version. Each release candidate branch branches off of <code>develop</code> branch when we are ready to build a to-be-validated version and push artifacts to <code>staging-ran</code>. It will be merged back to <code>master</code> and <code>develop</code> branches when the version is released to <code>ran</code>.</li>
+</ol>
+<h4>Github Tags</h4>
+<p>We created a tag for each version that is ever built.</p>
+<h3>Development Practices</h3>
+<ul>
+<li>Each developer folk the central repository and add new feature to their folk.</li>
+<li>Each developer is responsible to make sure that their contribution does not include broken code by running their own private builds before making pull request against the central repository's <code>develop</code> branch.</li>
+<li>Each pull request that is merged to the <code>develop</code> branch will trigger a develop build that attempts to build the artifacts and run all tests on 3 platforms: Mac, Linux, and Windows.</li>
+</ul>
+<h3>Deployment Practices</h3>
+<p>Each deployment ensures that the binaries are available and installable for Mac and Windows. The source code is available and installable for Linux.</p>
+<h2>The Build &amp; Deploy System</h2>
+<p>Now that we setup all the practices above, it's very straight forward what we need to make everything works with a few clicks. I setup 3 types of builds:</p>
+<ul>
+<li>The dev builds,</li>
+<li>The staging builds, and</li>
+<li>The prod builds</li>
+</ul>
+<h3>The dev builds</h3>
+<p>The dev builds are used to ensure that artifacts can be built on 3 platforms: Mac, Linux, and Windows; and all tests are passed.</p>
+<p>The dev build is used by each developer for their private builds, and for the central repository's <code>develop</code> branch upon pull request merge events.</p>
+<h3>The staging builds</h3>
+<p>The staging build is triggered when we are ready to enter validation phase. It checks out code from the central repository's release candidate branch, and performs the following tasks:</p>
+<ul>
+<li>Build the artifacts on 3 platforms: Mac, Linux, and Windows</li>
+<li>Update version and documentation on the release candidate branch</li>
+<li>Deploy the artifacts to <code>staging-ran</code></li>
+<li>Ensure that the artifacts are installable by 3 platforms: Mac, Linux, and Windows from <code>staging-ran</code></li>
+</ul>
+<h3>The prod builds</h3>
+<p>The prod build is triggered when we are ready to release a version to <code>ran</code>. It performs the following tasks:</p>
+<ul>
+<li>Deploy the built artifacts to <code>ran</code></li>
+<li>Ensure that the artifacts are installable by 3 platforms: Mac, Linux, and Windows from <code>ran</code></li>
+</ul>
+<h2>Notes &amp; Documentation</h2>
+<p>While working on this task, I wrote multiple documentation and putting build script in a Github repository:</p>
+<ul>
+<li><a href="https://sagebionetworks.jira.com/wiki/spaces/SYNR/pages/151420929/synapser+dev+staging+validation+release">The design</a></li>
+<li><a href="https://sagebionetworks.jira.com/wiki/spaces/SYNR/pages/154861569/Jenkins+Builds+-+Info+and+Maintenance">The builds</a></li>
+<li><a href="https://github.com/Sage-Bionetworks/CI-Build-Tools">The scripts</a></li>
+</ul>
+      </div><!-- .entry-content -->
+      <br /><br />
+      <div class="article_meta">
+        Tags:
+          <a href="https://kimyen.github.io/tag/cicd.html">CI/CD</a>,          <a href="https://kimyen.github.io/tag/jenkins.html">jenkins</a>,          <a href="https://kimyen.github.io/tag/builds.html">builds</a>,          <a href="https://kimyen.github.io/tag/automation.html">automation</a>,          <a href="https://kimyen.github.io/tag/github.html">GitHub</a>,          <a href="https://kimyen.github.io/tag/r.html">R</a>,          <a href="https://kimyen.github.io/tag/packages.html">packages</a>,          <a href="https://kimyen.github.io/tag/packaging.html">packaging</a>,          <a href="https://kimyen.github.io/tag/deploy.html">deploy</a>,          <a href="https://kimyen.github.io/tag/ran.html">RAN</a>,          <a href="https://kimyen.github.io/tag/releases.html">releases</a>,          <a href="https://kimyen.github.io/tag/practices.html">practices</a>      </div>
+    </div>
+  </div>
+</article><!-- #post-## -->
+                </div>
+              </div><!-- #main -->
+          </div><!-- #primary -->
+        </div>
+      </div><!-- close .row -->
+    </div><!-- close .container -->
+  </div><!-- close .site-content -->
+
+
+
+
+  <div id="footer-area">
+    <footer id="colophon" class="site-footer" role="contentinfo">
+      <div class="site-info container">
+        <div class="row">
+                    <div class="copyright col-md-12">
+                    <a href="https://kimyen.github.io/pages/privacy-policy">Privacy Policy</a> | 
+                    <a href="https://kimyen.github.io/pages/terms-and-conditions">Terms & Conditions</a><br />
+                    This site uses the <a href="https://github.com/limbenjamin/voce">voce</a> theme by <a href="//limbenjamin.com/">Benjamin Lim</a><br />
+                    &copy; 2020 <a href="https://kimyen.github.io">kimyen</a> </div>
+        </div>
+      </div><!-- .site-info -->
+      <div class="scroll-to-top" style="display: none;"><i class="fa fa-angle-up"></i></div><!-- .scroll-to-top -->
+    </footer><!-- #colophon -->
+  </div>
+
+  <script type="text/javascript">
+    window.addEventListener('load', function(){
+    if (window.location.pathname != '/' && window.location.pathname != '/index.html'){
+      window.scroll(0, document.getElementById('main').offsetTop);
+    }})
+  </script>
+
+
+
+
+<script type="text/javascript">window.addEventListener("load", lw_timeago);</script>
+</body>
+</html>

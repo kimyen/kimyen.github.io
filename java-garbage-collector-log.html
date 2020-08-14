@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="kimyen">
+  <meta name="description" content="Java Garbage Collector Log | Have you ever read a Java garbage collector log? It&#39;s awful. It looks something like this: ......">
+
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">  
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/font.css" type="text/css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://kimyen.github.io/theme/css/style.css" type="text/css" media="all">
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://kimyen.github.io/theme/js/functions.js"></script>
+
+  
+ 
+
+
+<meta name="keywords" content="java, garbage collector, log, datetime, python">
+
+
+
+  <title>Java Garbage Collector Log</title>
+
+  
+</head>
+
+<body class="home blog">
+  <div>
+    <header class="site-header">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="row">
+            <div class="site-navigation-inner col-sm-12">
+              <div class="navbar-header">
+                <button type="button" class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul id="menu-all-pages" class="nav navbar-nav">
+                <li class="menu-item"><a href="/index.html" >Home
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/about.html" >About
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/projects.html" >Projects
+<i class="fa  fa-lg"></i></a></li>
+                <li class="menu-item"><a href="/pages/hobbies.html" >Hobbies
+<i class="fa  fa-lg"></i></a></li>
+              </ul>
+              </div>
+              <div class="social">   
+                <a href="mailto:kimyen@github.com" title="Email" >
+<i class="fa fa-envelope fa-lg"></i></a>
+                <a href="http://github.com/kimyen" title="GitHub" >
+<i class="fa fa-github fa-lg"></i></a>
+                <a href="https://www.linkedin.com/in/kimyen-ladia-a3b50884" title="Linkedin" >
+<i class="fa fa-linkedin fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav><!-- .site-navigation -->
+
+      <div class="container">
+      <div id="logo">
+        <span class="site-name"><a class="navbar-brand" href="https://kimyen.github.io"><img width="310" src="https://avatars1.githubusercontent.com/u/4404426?s=460&u=005f2c61c8afb6778c2d00b4a9746a67cd1c39f1&v=4" class="attachment-full size-full" alt="logo">          </a>
+          <br><i>I wanna say something, but it's late. I should go to sleep. </i><br>
+        </span><!-- end of .site-name -->
+      </div><!-- end of #logo -->
+        <div class="tagline">
+                <a href="https://kimyen.github.io/tag/automation.html" >automation (3)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/aws.html" >AWS (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/builds.html" >builds (3)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/cicd.html" >CI/CD (2)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/datetime.html" >datetime (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/deploy.html" >deploy (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/garbage-collector.html" >garbage collector (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/github.html" >GitHub (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/java.html" >java (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/jenkins.html" >jenkins (3)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/log.html" >log (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/packages.html" >packages (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/packaging.html" >packaging (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/practices.html" >practices (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/python.html" >python (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/r.html" >R (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/ran.html" >RAN (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/rds.html" >RDS (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/releases.html" >releases (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/snapshots.html" >snapshots (1)</a> &#124; 
+                <a href="https://kimyen.github.io/tag/tools.html" >tools (1)</a> &#124; 
+        </div>
+    </div>
+
+  </header><!-- #masthead -->
+  </div>
+    <div id="content" class="site-content">
+      <div class="container main-content-area">
+        <div class="row">
+          <div class="main-content-inner col-sm-12 col-md-12">
+            <div id="primary" class="content-area">
+              <div id="main" class="site-main" role="main">
+                <div class="article-container">
+<article>
+  <div class="blog-item-wrap">
+    <div class="post-inner-content">
+      <header class="entry-header page-header">
+        <span class="cat-item"><time datetime="2020-08-13 00:00:00-07:00">Aug 13, 2020</time></span>
+        <h1 class="entry-title"><a href="https://kimyen.github.io/java-garbage-collector-log.html">Java Garbage Collector Log</a></h1>
+      </header><!-- .entry-header -->
+      <div class="fb-like" data-href="https://kimyen.github.io/java-garbage-collector-log.html" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+      <div class="entry-content">
+        <p>Have you ever read a Java garbage collector log? It's awful. It looks something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p">...</span><span class="w"></span>
+<span class="o">[</span><span class="n">1930612.981s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Entering</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="nl">region</span><span class="p">:</span><span class="w"> </span><span class="n">Cleanup</span><span class="w"></span>
+<span class="o">[</span><span class="n">1930612.982s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Leaving</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="n">region</span><span class="w"></span>
+<span class="o">[</span><span class="n">1930612.982s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">application</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="nl">stopped</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0013979</span><span class="w"> </span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">Stopping</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="nl">took</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0003442</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.084s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="nc">time</span><span class="err">:</span><span class="w"> </span><span class="mf">407.1018564</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.085s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Entering</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="nl">region</span><span class="p">:</span><span class="w"> </span><span class="n">G1CollectForAllocation</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.087s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,start      </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="n">Pause</span><span class="w"> </span><span class="n">Young</span><span class="w"> </span><span class="p">(</span><span class="n">Normal</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">G1</span><span class="w"> </span><span class="n">Evacuation</span><span class="w"> </span><span class="n">Pause</span><span class="p">)</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.087s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,task       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="k">Using</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="n">workers</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">evacuation</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w">   </span><span class="n">Pre</span><span class="w"> </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">0.2</span><span class="n">ms</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w">   </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">135.4</span><span class="n">ms</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w">   </span><span class="n">Post</span><span class="w"> </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">10.5</span><span class="n">ms</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w">   </span><span class="nl">Other</span><span class="p">:</span><span class="w"> </span><span class="mf">3.2</span><span class="n">ms</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="n">Eden</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">3388</span><span class="o">-&gt;</span><span class="mi">0</span><span class="p">(</span><span class="mi">3316</span><span class="p">)</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="n">Survivor</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="o">-&gt;</span><span class="mi">41</span><span class="p">(</span><span class="mi">428</span><span class="p">)</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="k">Old</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">1221</span><span class="o">-&gt;</span><span class="mi">1221</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="n">Humongous</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="o">-&gt;</span><span class="mi">2</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,metaspace  </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="nl">Metaspace</span><span class="p">:</span><span class="w"> </span><span class="mi">347213</span><span class="n">K</span><span class="o">-&gt;</span><span class="mi">347213</span><span class="n">K</span><span class="p">(</span><span class="mi">475136</span><span class="n">K</span><span class="p">)</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc            </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="n">Pause</span><span class="w"> </span><span class="n">Young</span><span class="w"> </span><span class="p">(</span><span class="n">Normal</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">G1</span><span class="w"> </span><span class="n">Evacuation</span><span class="w"> </span><span class="n">Pause</span><span class="p">)</span><span class="w"> </span><span class="mi">148885</span><span class="n">M</span><span class="o">-&gt;</span><span class="mi">40435</span><span class="n">M</span><span class="p">(</span><span class="mi">196608</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="mf">149.357</span><span class="n">ms</span><span class="w"></span>
+<span class="o">[</span><span class="n">1931020.236s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,cpu        </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20652</span><span class="p">)</span><span class="w"> </span><span class="k">User</span><span class="o">=</span><span class="mf">3.24</span><span class="n">s</span><span class="w"> </span><span class="n">Sys</span><span class="o">=</span><span class="mf">0.00</span><span class="n">s</span><span class="w"> </span><span class="nc">Real</span><span class="o">=</span><span class="mf">0.15</span><span class="n">s</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>Imagine you are looking for the root cause of an application crash and trying to get a picture of what is going on with different part of the system. One important part of a java application is the garbage collector. Say that you want to figure out, at 16:50 to 17:15 on 2020-07-24, how was the garbage collector doing? Good luck finding that information using the log above where the time is in seconds!</p>
+<p>Luckily, the name of the garbage collector log file contains the time at which the application starts. And the time (in seconds) within the log is the second since the application starts. Based on that, I wrote a <a href="https://github.com/kimyen/gc_date_format">tiny python script</a> that takes the original garbage collector log and output one with ISO datetime format. Something like this would be much easier to navigate:</p>
+<div class="highlight"><pre><span></span><code><span class="p">...</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">15</span><span class="err">:</span><span class="mf">06.514000</span><span class="o">[</span><span class="n">1931961.514s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">application</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="nl">stopped</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0012066</span><span class="w"> </span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">Stopping</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="nl">took</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0003581</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.020000</span><span class="o">[</span><span class="n">1932496.020s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="nc">time</span><span class="err">:</span><span class="w"> </span><span class="mf">534.5060495</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.021000</span><span class="o">[</span><span class="n">1932496.021s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Entering</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="nl">region</span><span class="p">:</span><span class="w"> </span><span class="n">G1CollectForAllocation</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.024000</span><span class="o">[</span><span class="n">1932496.024s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,start      </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="n">Pause</span><span class="w"> </span><span class="n">Young</span><span class="w"> </span><span class="p">(</span><span class="n">Normal</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">G1</span><span class="w"> </span><span class="n">Evacuation</span><span class="w"> </span><span class="n">Pause</span><span class="p">)</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.024000</span><span class="o">[</span><span class="n">1932496.024s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,task       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="k">Using</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="n">workers</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">evacuation</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w">   </span><span class="n">Pre</span><span class="w"> </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">0.2</span><span class="n">ms</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w">   </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">61.0</span><span class="n">ms</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w">   </span><span class="n">Post</span><span class="w"> </span><span class="n">Evacuate</span><span class="w"> </span><span class="n">Collection</span><span class="w"> </span><span class="k">Set</span><span class="err">:</span><span class="w"> </span><span class="mf">10.6</span><span class="n">ms</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,phases     </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w">   </span><span class="nl">Other</span><span class="p">:</span><span class="w"> </span><span class="mf">3.2</span><span class="n">ms</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="n">Eden</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">3364</span><span class="o">-&gt;</span><span class="mi">0</span><span class="p">(</span><span class="mi">3670</span><span class="p">)</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="n">Survivor</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="o">-&gt;</span><span class="mi">16</span><span class="p">(</span><span class="mi">426</span><span class="p">)</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="k">Old</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">1221</span><span class="o">-&gt;</span><span class="mi">1222</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,heap       </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="n">Humongous</span><span class="w"> </span><span class="nl">regions</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">2</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,metaspace  </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="nl">Metaspace</span><span class="p">:</span><span class="w"> </span><span class="mi">347628</span><span class="n">K</span><span class="o">-&gt;</span><span class="mi">347628</span><span class="n">K</span><span class="p">(</span><span class="mi">475136</span><span class="n">K</span><span class="p">)</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc            </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="n">Pause</span><span class="w"> </span><span class="n">Young</span><span class="w"> </span><span class="p">(</span><span class="n">Normal</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">G1</span><span class="w"> </span><span class="n">Evacuation</span><span class="w"> </span><span class="n">Pause</span><span class="p">)</span><span class="w"> </span><span class="mi">147937</span><span class="n">M</span><span class="o">-&gt;</span><span class="mi">39650</span><span class="n">M</span><span class="p">(</span><span class="mi">196608</span><span class="n">M</span><span class="p">)</span><span class="w"> </span><span class="mf">75.105</span><span class="n">ms</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">gc,cpu        </span><span class="o">]</span><span class="w"> </span><span class="n">GC</span><span class="p">(</span><span class="mi">20654</span><span class="p">)</span><span class="w"> </span><span class="k">User</span><span class="o">=</span><span class="mf">1.23</span><span class="n">s</span><span class="w"> </span><span class="n">Sys</span><span class="o">=</span><span class="mf">0.28</span><span class="n">s</span><span class="w"> </span><span class="nc">Real</span><span class="o">=</span><span class="mf">0.07</span><span class="n">s</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Leaving</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="n">region</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">01.099000</span><span class="o">[</span><span class="n">1932496.099s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">application</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="nl">stopped</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0792423</span><span class="w"> </span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">Stopping</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="nl">took</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0004899</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">05.541000</span><span class="o">[</span><span class="n">1932500.541s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="nc">time</span><span class="err">:</span><span class="w"> </span><span class="mf">4.4411200</span><span class="w"> </span><span class="n">seconds</span><span class="w"></span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span><span class="nl">T16</span><span class="p">:</span><span class="mi">24</span><span class="err">:</span><span class="mf">05.541000</span><span class="o">[</span><span class="n">1932500.541s</span><span class="o">][</span><span class="n">info</span><span class="o">][</span><span class="n">safepoint     </span><span class="o">]</span><span class="w"> </span><span class="n">Entering</span><span class="w"> </span><span class="n">safepoint</span><span class="w"> </span><span class="nl">region</span><span class="p">:</span><span class="w"> </span><span class="n">ThreadDump</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>Well, if you are reading GC log, good luck! ;)</p>
+      </div><!-- .entry-content -->
+      <br /><br />
+      <div class="article_meta">
+        Tags:
+          <a href="https://kimyen.github.io/tag/java.html">java</a>,          <a href="https://kimyen.github.io/tag/garbage-collector.html">garbage collector</a>,          <a href="https://kimyen.github.io/tag/log.html">log</a>,          <a href="https://kimyen.github.io/tag/datetime.html">datetime</a>,          <a href="https://kimyen.github.io/tag/python.html">python</a>      </div>
+    </div>
+  </div>
+</article><!-- #post-## -->
+                </div>
+              </div><!-- #main -->
+          </div><!-- #primary -->
+        </div>
+      </div><!-- close .row -->
+    </div><!-- close .container -->
+  </div><!-- close .site-content -->
+
+
+
+
+  <div id="footer-area">
+    <footer id="colophon" class="site-footer" role="contentinfo">
+      <div class="site-info container">
+        <div class="row">
+                    <div class="copyright col-md-12">
+                    <a href="https://kimyen.github.io/pages/privacy-policy">Privacy Policy</a> | 
+                    <a href="https://kimyen.github.io/pages/terms-and-conditions">Terms & Conditions</a><br />
+                    This site uses the <a href="https://github.com/limbenjamin/voce">voce</a> theme by <a href="//limbenjamin.com/">Benjamin Lim</a><br />
+                    &copy; 2020 <a href="https://kimyen.github.io">kimyen</a> </div>
+        </div>
+      </div><!-- .site-info -->
+      <div class="scroll-to-top" style="display: none;"><i class="fa fa-angle-up"></i></div><!-- .scroll-to-top -->
+    </footer><!-- #colophon -->
+  </div>
+
+  <script type="text/javascript">
+    window.addEventListener('load', function(){
+    if (window.location.pathname != '/' && window.location.pathname != '/index.html'){
+      window.scroll(0, document.getElementById('main').offsetTop);
+    }})
+  </script>
+
+
+
+
+<script type="text/javascript">window.addEventListener("load", lw_timeago);</script>
+</body>
+</html>
